@@ -144,7 +144,7 @@ C<nocontent()> returns the negation of C<hascontent()>.
 sub hascontent {
 	my $val = shift();
 
-	if (!defined($val)) {
+	unless (defined($val)) {
 		return 0;
 	}
 
@@ -190,7 +190,7 @@ rtrim() trims B<trailing> whitespace only.
 sub trim {
 	my $s = shift();
 
-	if (!defined($s)) {
+	unless (defined($s)) {
 		return undef;
 	}
 
@@ -211,7 +211,7 @@ sub trim {
 sub ltrim {
 	my $s = shift();
 
-	if (!defined($s)) {
+	unless (defined($s)) {
 		return undef;
 	}
 
@@ -223,7 +223,7 @@ sub ltrim {
 sub rtrim {
 	my $s = shift();
 
-	if (!defined($s)) {
+	unless (defined($s)) {
 		return undef;
 	}
 
@@ -342,7 +342,7 @@ surrounds the string in single quotes.  Returns the modified string.
 sub jsquote {
 	my ($str) = @_;
 
-	if (!defined($str)) {
+	unless (defined($str)) {
 		return undef;
 	}
 
@@ -834,7 +834,7 @@ sub ords {
 			{ next CHAR_LOOP }
 
 		# don't convert alphanums
-		if (! $opts{'alpha_nums'}) {
+		unless ( $opts{'alpha_nums'}) {
 			if ( $char =~ m|^[a-z0-9]$|si) {
 				next CHAR_LOOP;
 			}
@@ -908,11 +908,11 @@ Checks if the string contains substring
 sub contains {
 	my ($str, $substr) = @_;
 
-	if (!defined($str)) {
+	unless (defined($str)) {
 		return undef;
 	}
 
-	if (!$substr) {
+	unless ($substr) {
 		$substr = $str;
 		$str    = $_;
 	}
@@ -938,11 +938,11 @@ Checks if the string starts with the characters in substring
 sub startswith {
 	my ($str, $substr) = @_;
 
-	if (!defined($str)) {
+	unless (defined($str)) {
 		return undef;
 	}
 
-	if (!$substr) {
+	unless ($substr) {
 		$substr = $str;
 		$str    = $_;
 	}
@@ -968,11 +968,11 @@ Checks if the string ends with the characters in substring
 sub endswith {
 	my ($str, $substr) = @_;
 
-	if (!defined($str)) {
+	unless (defined($str)) {
 		return undef;
 	}
 
-	if (!$substr) {
+	unless ($substr) {
 		$substr = $str;
 		$str    = $_;
 	}
@@ -1002,7 +1002,7 @@ single newline.
 sub crunchlines {
 	my ($str) = @_;
 
-	if (!defined($str)) {
+	unless (defined($str)) {
 		return undef;
 	}
 
@@ -1037,7 +1037,7 @@ sub sanitize {
     my $str = shift();
     my $sep = shift() // "_";
 
-    if (!defined($str)) {
+    unless (defined($str)) {
         return undef;
     }
 
