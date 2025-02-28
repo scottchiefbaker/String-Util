@@ -61,6 +61,7 @@ push @EXPORT_OK, qw[
 	rtrim        repeat     unquote   no_space
 	nospace      jsquote    crunchlines
 	file_get_contents		substr_count
+    occurences
 ];
 
 # the following functions return true or false based on their input
@@ -835,7 +836,8 @@ sub substr_count {
 	my ($haystack, $needle) = @_;
 
 	if (!defined($needle) || !defined($haystack)) { return undef; }
-	if ($haystack eq ''   || $needle eq '')       { return 0; }
+    if ($haystack eq ''   || $needle eq '')       { return 0; }
+	if ($haystack eq $needle)                     { return 0; }
 
 	my $pos     = 0;
 	my $matches = 0;
@@ -852,6 +854,66 @@ sub substr_count {
 	}
 
 	return $matches;
+}
+
+=head2 occurences($haystack, $needle)
+
+Returns the indexes for each occurence of $needle in $haystack.
+Returns an arrayref in scalar context and a list, in list context.
+Returns an empty arrayref, or empty list if, $needle is undef, or $haystack is undef.
+Returns an empty arrayref, or empty list if, $needle, or $haystack is an empty string.
+
+  my $occurences = occurences("Perl, is great. Glory to Perl!", "Perl");  # [ 0, 25 ]
+  my @occurences = occurences("Raku is also cool, I like Raku.", "Raku"); # ( 0, 26 )
+
+=cut
+
+sub occurences {
+    my ($haystack, $needle) = @_;
+
+    if (!defined($needle) || !defined($haystack)) {
+        return wantarray ? () : [];
+    }
+
+    if ($haystack eq '' || $needle eq '') {
+        return wantarray ? () : [];
+    }
+
+    if ($needle eq $haystack) {
+        return wantarray ? (0) : [0];
+    }
+
+    my @occurences;
+    my @hchars = split '', $haystack;
+
+    if (length $needle == 1) {
+        foreach my $i (0..$#hchars) {
+            if ($hchars[$i] eq $needle) {
+                push @occurences, $i;            
+            }
+        }
+
+        return wantarray ? @occurences : \@occurences;
+    }
+
+    my @nchars = split '', $needle;
+    foreach my $i (0..$#hchars) {
+        if ($hchars[$i] eq $nchars[0]) {
+            my $match = 1;
+            foreach my $j (1..$#nchars) {
+                if ($hchars[$i + $j] ne $nchars[$j]) {
+                    $match = 0;
+                    last;
+                }
+            }
+
+            if ($match) {
+                push @occurences, $i;
+            }
+        }
+    }
+
+    return wantarray ? @occurences : \@occurences;
 }
 
 

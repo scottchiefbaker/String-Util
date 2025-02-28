@@ -105,7 +105,6 @@ is(endswith('foo', undef)  , undef , "Second param undef");
 
 ################################################################################
 # contains()
-################################################################################
 
 $val = "Quick brown fox";
 $_   = 7; # Populate $_ to fuzz the tests
@@ -187,6 +186,51 @@ is(substr_count("Perl is really rad", "perl"), 0    , "Substr count word");
 is(substr_count("Perl is really rad", "Perl"), 1    , "Substr count word case sensitive");
 is(substr_count("Perl is really rad", undef) , undef, "Substr count invalid input #1");
 is(substr_count(undef               , "Q")   , undef, "Substr count invalid input #2");
+
+################################################################################
+
+################################################################################
+# occurences()
+################################################################################
+
+{
+    my $occurences = occurences("Perl, is great. Glory to Perl!", "Perl");
+    is(scalar @$occurences ,  2, "Occurences found correct number of occurences");
+    is($occurences->[0]    ,  0, "Occurences finds first");
+    is($occurences->[1]    , 25, "Occurences finds second");
+}
+
+{
+    my @occurences = occurences("Perl, is great. Glory to Perl!", "Perl");
+    is(scalar @occurences ,  2, "Occurences found correct number of occurences (list)");
+    is($occurences[0]     ,  0, "Occurences finds first (list)");
+    is($occurences[1]     , 25, "Occurences finds second (list)");
+}
+
+{
+    my $occurences = occurences(undef, undef);
+    is(scalar @$occurences, 0, "Occurences undef produces correct result?");
+
+    my @occurences = occurences(undef, "foo");
+    is(scalar @occurences, 0, "Occurences undef produces correct result? (list)");
+}
+
+{
+    my $occurences = occurences("Perl Perl Perl Perl Perl Perl Perl", "Perl");
+    my @indexes    = (0, 5, 10, 15, 20, 25, 30);
+    is(scalar @$occurences, 7, "Occurences found correct number of occurences (larger)");
+    for (0..$#indexes) {
+        is($indexes[$_], $occurences->[$_], "Occurences found correct index? [$_]");
+    }
+}
+
+{
+    my $occurences = occurences("abcdefabcdefabcdef", "a");
+    is(scalar @$occurences, 3, "Single letter found right amount of occurences?");
+    is($occurences->[0], 0, "Single letter found correct index for first?");
+    is($occurences->[1], 6, "Single letter found correct index for second?");
+    is($occurences->[2], 12, "Single letter found correct index for third?");
+}
 
 ################################################################################
 
