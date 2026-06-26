@@ -463,7 +463,7 @@ sub eqq {
 
 =head2 neqq($scalar1, $scalar2)
 
-The opposite of C<neqq>, returns true if the two values are *not* the same.
+The opposite of C<eqq>, returns true if the two values are B<not> the same.
 Here are some examples and what they return.
 
   $var = neqq('x', 'x');     # False
