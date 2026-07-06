@@ -8,7 +8,7 @@ use v5.14;
 # version
 # https://blogs.perl.org/users/grinnz/2018/04/a-guide-to-versions-in-perl.html
 # https://github.com/andk/pause/blob/master/doc/operating-model.md#36-developer-releases
-our $VERSION  = '1.36';
+our $VERSION  = '1.37';
 our $FGC_MODE = 'UTF-8';
 
 #------------------------------------------------------------------------------
